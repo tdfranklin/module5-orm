@@ -1,0 +1,58 @@
+1. What's a RubyGem and why would you use one?
+
+    A Ruby Gem is basically a library or addon for your application that gives you some additional functionality.
+    They will typically contain modules, classes, and methods that you can use in your application to either 
+    make some functionality easier (like the Devise gem making it easier to add users and log-in functionality to
+    your application) or it can be like an API that creates methods to deliver information from another site.
+    The uses are very varied and unique from gem to gem.
+
+2. What's the difference between lazy and eager loading?
+
+    Lazy loading would load some asset when it's actually used by the user and eager would load it in advance.
+    For instance, if you went to a site that had a bunch of pictures - lazy loading would not actually load the
+    picture until it was on the user's screen or they interacted with it in some way (clicking on it, mousing over
+    it, etc) while eager loading would load all pictures when the site loaded, weather the user was looking at them
+    or not.
+
+3. What's the difference between the CREATE TABLE and INSERT INTO SQL statements?
+
+    CREATE TABLE is actually creating a new SQL table and INSERT INTO is the act of putting actual data into an
+    already existing table.
+
+4. What's the difference between extend and include? When would you use one or the other?
+
+    Extend is for class methods and include is for instance methods, although you can also use include for both
+    class and instance methods by using self.included in the class (as we did with the Persistance module).
+
+5. In persistence.rb, why do the save methods need to be instance (vs. class) methods?
+
+    They need to be instance methods so that they can be used on instances of the class, not on the class itself.
+
+6. Given the Jar-Jar Binks example earlier, what is the final SQL query in persistence.rb's save! method?
+
+    UPDATE character
+    SET character_name='Jar-Jar Binks', star_rating='1'
+    WHERE id = id_for_this_obj
+
+7. AddressBook's entries instance variable no longer returns anything. We'll fix this in a later checkpoint. What changes will we need to make?
+
+    Because the instance variables are determined from the database now, not defined on the class itself.
+
+8. Write a Ruby method that converts snake_case to CamelCase using regular expressions (you can test them on Rubular). Send your code to your mentor.
+
+    def snake_to_camel(string)
+        string.gsub(/(?:_|^)(\w)/){$1.upcase}
+    end
+
+9. Add a select method which takes an attribute and value and searches for all records that match:
+
+    def find_by(attr, val)
+        connection.execute <<-SQL
+            SELECT *
+            FROM #{table}
+            WHERE #{attr}=#{val}
+        SQL
+
+        data = Hash[columns.zip(row)]
+        new(data)
+    end
